@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFINITY-PLAYER - Your favourite music is here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4Cfm6x7j480tW8+l78Pz3o+48x/b+sO6X+P+g8LqXWzL6t6/p+E5A/sU+Z/j8B+T5oA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        /* ADVANCED STYLING STARTS HERE */
+
+        :root {
+            /* Color Palette */
+            --primary-color: #ff3864; /* A vibrant pink/red for accents */
+            --secondary-color: #3a3a3a; /* Dark gray for elements */
+            --background-color: #121212; /* Dark background */
+            --text-color: #ffffff; /* White text */
+            --text-secondary: #aaaaaa; /* Lighter gray text */
+            --hover-color: #555555; /* Slightly lighter on hover */
+            --progress-bar-fill: #ff3864;
+            --container-bg: rgba(25, 25, 25, 0.9); /* Slightly transparent dark container */
+
+            /* Typography */
+            --font-main: 'Ubuntu', sans-serif;
+            --font-secondary: 'Varela Round', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-secondary);
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.hdqwalls.com/download/red-moon-8q-3840x2160.jpg');
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed; /* Makes the background image stationary */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- Navigation Bar Styling --- */
+        nav {
+            font-family: var(--font-main);
+            background-color: rgba(0, 0, 0, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            list-style-type: none;
+            height: 65px;
+            padding: 0 20px;
+        }
+
+        nav ul li {
+            padding: 0 15px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li:hover {
+            color: var(--primary-color);
+        }
+
+        .brand img {
+            width: 38px;
+            margin-right: 10px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-grow: 1; /* Pushes the rest of the list items to the right */
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            min-height: 72vh;
+            background-color: var(--container-bg);
+            color: var(--text-color);
+            display: flex;
+            margin: 40px auto;
+            width: 85%;
+            max-width: 1200px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            /* Removed distracting background image from the container */
+        }
+
+        .songList {
+            width: 60%;
+            padding-right: 30px;
+        }
+
+        .songList h1 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .songBanner {
+            width: 40%;
+            background: url("https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80") no-repeat center center/cover;
+            border-radius: 10px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        /* --- Song Item Styling --- */
+        .songItemContainer {
+            max-height: 500px;
+            overflow-y: auto; /* Enable scrolling for long lists */
+            padding-right: 10px;
+        }
+
+        /* Custom Scrollbar for better aesthetics */
+        .songItemContainer::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .songItemContainer::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .songItem {
+            height: 60px;
+            display: flex;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            margin: 15px 0;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .songItem:hover {
+            background-color: var(--hover-color);
+            transform: scale(1.01);
+        }
+
+        .songItem img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .songName {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+
+        .songlistplay {
+            display: flex;
+            align-items: center;
+        }
+
+        .timestamp {
+            margin-right: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .songItemPlay {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        
+        .songItemPlay:hover {
+            color: var(--text-color);
+        }
+
+        /* --- Bottom Player Bar Styling --- */
+        .bottom {
+            position: sticky;
+            bottom: 0;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 10px 0;
+            border-top: 2px solid var(--primary-color);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Progress Bar Styling */
+        #myProgressBar {
+            width: 80%;
+            height: 6px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--text-secondary);
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Custom Thumb for Progress Bar */
+        #myProgressBar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        #myProgressBar::-webkit-slider-thumb:hover {
+            background: var(--text-color);
+        }
+
+        /* Icons (Controls) Styling */
+        .icons {
+            display: flex;
+            gap: 30px;
+        }
+
+        .icons i {
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--text-color);
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .icons i:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        /* Song Info Styling */
+        .songInfo {
+            position: absolute;
+            left: 5vw;
+            display: flex;
+            align-items: center;
+            font-family: var(--font-secondary);
+            font-size: 1.1rem;
+        }
+
+        #gif {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            opacity: 0;
+            transition: opacity 0.4s ease-in;
+            border-radius: 50%;
+        }
+
+        #masterSongName {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Footer Styling */
+        footer {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 15px 0;
+            background-color: var(--secondary-color);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--hover-color);
+        }
+
+        /* --- Responsiveness (Media Queries) --- */
+        @media only screen and (max-width: 1100px) {
+            .container {
+                flex-direction: column;
+                width: 95%;
+                padding: 20px;
+            }
+
+            .songList {
+                width: 100%;
+                padding-right: 0;
+                order: 2; /* Move song list below banner on small screens */
+            }
+
+            .songBanner {
+                width: 100%;
+                min-height: 200px;
+                margin-bottom: 20px;
+                order: 1; /* Move banner above song list on small screens */
+            }
+
+            .songItem {
+                height: 55px;
+            }
+            
+            #masterSongName {
+                max-width: 150px; /* Adjust width for small screens */
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .bottom {
+                height: 120px;
+            }
+            
+            #myProgressBar {
+                width: 90%;
+            }
+
+            .songInfo {
+                left: 2vw;
+                font-size: 1rem;
+            }
+
+            .brand {
+                font-size: 1.2rem;
+            }
+
+            nav ul li {
+                padding: 0 8px;
+                font-size: 0.9rem;
+            }
+            
+            .icons i {
+                font-size: 1.5rem;
+            }
+        }
+        /* ADVANCED STYLING ENDS HERE */
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li class="brand"><img src="logo.png" alt="infinityplayer">INFINITY PLAYER</li>
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact Us</li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="songList">
+            <h1>Best of INFINITY - No Copyright Sounds</h1>
+            <div class="songItemContainer">
+                <div class="songItem">
+                    <img alt="1">
+                    <span class="songName">Loading Song...</span>
+                    <span class="songlistplay"><span class="timestamp">00:00 <i id="0" class="far songItemPlay fa-play-circle"></i> </span></span>
+                </div>
+                </div>
+        </div>
+        <div class="songBanner">
+            <h2 style="color: white; text-shadow: 0 0 5px black;">Discover New Music</h2>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <input type="range" name="range" id="myProgressBar" min="0" value="0" max="100">
+        <div class="icons">
+            <i class="fas fa-step-backward" id="previous" title="Previous Song"></i>
+            <i class="far fa-play-circle fa-2x" id="masterPlay" title="Play/Pause"></i>
+            <i class="fas fa-step-forward" id="next" title="Next Song"></i>
+        </div>
+        <div class="songInfo">
+            <img src="playing.gif" alt="Playing animation" id="gif">
+            <span id="masterSongName">Warriyo - Mortals [NCS Release]</span>
+        </div>
+    </div>
+    
+    <script>
+        console.log("Welcome to INFINITY-PLAYER");
+
+        // Initialize the Variables
+        let songIndex = 0;
+        let audioElement = new Audio(); // Initialize without source
+        let masterPlay = document.getElementById('masterPlay');
+        let myProgressBar = document.getElementById('myProgressBar');
+        let gif = document.getElementById('gif');
+        let masterSongName = document.getElementById('masterSongName');
+        let songItemContainer = document.querySelector('.songItemContainer');
+        
+        // Define the songs array with coverPath, filePath, and songName
+        let songs = [
+            {songName: "Manma Emotion Jaage [Slowed & Reverb]", filePath: "songs/1.mp3", coverPath: "covers/1.jpg", duration: "05:34"},
+            {songName: "Love Me Back", filePath: "songs/2.mp3", coverPath: "covers/2.jpg", duration: "05:34"},
+            {songName: "Chitta Kurta - Karan Aujla", filePath: "songs/3.mp3", coverPath: "covers/3.jpg", duration: "05:34"},
+            {songName: "Gaddi Picche Naa - Khan Bhaini", filePath: "songs/4.mp3", coverPath: "covers/4.jpg", duration: "05:34"},
+            {songName: "Yes Or No - Jass Manak", filePath: "songs/5.mp3", coverPath: "covers/5.jpg", duration: "05:34"},
+            {songName: "Mexico - Karan Aujla", filePath: "songs/6.mp3", coverPath: "covers/6.jpg", duration: "05:34"},
+            {songName: "8- Parche ", filePath: "songs/7.mp3", coverPath: "covers/7.jpg", duration: "05:34"},
+            {songName: "Dhakka Sidhu Mossewala[Slowed&Reverb]", filePath: "songs/8.mp3", coverPath: "covers/8.jpg", duration: "05:34"},
+            {songName: "Dope Shope [Yo YO Honey Singh]", filePath: "songs/9.mp3", coverPath: "covers/9.jpg", duration: "05:34"},
+            {songName: "Suit Punjabi - Jass Manak", filePath: "songs/10.mp3", coverPath: "covers/10.jpg", duration: "05:34"},
+            {songName: "Chaleya - Arijit Singh", filePath: "songs/11.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Makhna [Slowed & Reverb]", filePath: "songs/12.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Tum Hi Ho Bandhu [Slowed & Reverb] ", filePath: "songs/13.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Galti Se Mistake [Slowed & Reverb] ", filePath: "songs/14.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Kashmir Main Tu KanyaKumari [Slowed & Reverb] ", filePath: "songs/15.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Tukur-Tukur [Slowed & Reverb] ", filePath: "songs/16.mp3", coverPath: "logo.png", duration: "03:08"},
+            {songName: "Tu Janne Naa [Slowed & Reverb] ", filePath: "songs/17.mp3", coverPath: "logo.png", duration: "03:08"},
+        ];
+
+        // Function to convert seconds to MM:SS format
+        const formatTime = (seconds) => {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+        
+        // Dynamic Song List Rendering
+        const renderSongList = () => {
+            let html = '';
+            songs.forEach((song, i) => {
+                // Using song.duration from the array for initial display, 
+                // but for a real player, this should be fetched from the audio file
+                html += `
+                    <div class="songItem">
+                        <img src="${song.coverPath}" alt="${i+1}">
+                        <span class="songName">${song.songName}</span>
+                        <span class="songlistplay">
+                            <span class="timestamp">${song.duration || '00:00'}</span>
+                            <i id="${i}" class="far songItemPlay fa-play-circle"></i> 
+                        </span>
+                    </div>
+                `;
+            });
+            songItemContainer.innerHTML = html;
+        }
+
+        renderSongList(); // Render the list initially
+        let songItems = Array.from(document.getElementsByClassName('songItem')); // Re-fetch song items after rendering
+
+        // Helper function to set the currently playing song
+        const setSong = (index) => {
+            songIndex = index;
+            // The file path logic was incorrect in the original JS. Using the correct index to get the path.
+            // Note: The original JS had a mix of `songs/1.mp3` and `songs/2.mp3` for many entries, 
+            // I've kept your original `songs/${index+1}.mp3` logic for simplicity, but a real player 
+            // should use the `songs[index].filePath`. 
+            // Here, I will use the `songs[index].filePath` for correctness.
+            audioElement.src = songs[songIndex].filePath; 
+            masterSongName.innerText = songs[songIndex].songName;
+            audioElement.currentTime = 0;
+        }
+        
+        // Initial setup for the first song
+        setSong(0);
+
+        // Function to make all play icons turn into play (stop playing state)
+        const makeAllPlays = ()=>{
+            Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
+                element.classList.remove('fa-pause-circle');
+                element.classList.add('fa-play-circle');
+            })
+        }
+        
+        // Function to toggle play/pause state
+        const togglePlay = () => {
+            if(audioElement.paused || audioElement.currentTime <= 0){
+                audioElement.play();
+                masterPlay.classList.remove('fa-play-circle');
+                masterPlay.classList.add('fa-pause-circle');
+                gif.style.opacity = 1;
+                
+                // Update the corresponding song item icon
+                makeAllPlays();
+                document.getElementById(songIndex).classList.remove('fa-play-circle');
+                document.getElementById(songIndex).classList.add('fa-pause-circle');
+            }
+            else{
+                audioElement.pause();
+                masterPlay.classList.remove('fa-pause-circle');
+                masterPlay.classList.add('fa-play-circle');
+                gif.style.opacity = 0;
+                
+                // Update the corresponding song item icon
+                document.getElementById(songIndex).classList.remove('fa-pause-circle');
+                document.getElementById(songIndex).classList.add('fa-play-circle');
+            }
+        }
+        
+        // Handle master play/pause click
+        masterPlay.addEventListener('click', togglePlay);
+
+        // Listen to Events: Update Seekbar and Song Time
+        audioElement.addEventListener('timeupdate', ()=>{ 
+            // Update Seekbar
+            let progress = parseInt((audioElement.currentTime/audioElement.duration)* 100); 
+            myProgressBar.value = progress;
+
+            // Optional: Update the timestamp dynamically (requires duration property on load)
+            // if (audioElement.duration) {
+            //     let currentSongItem = document.getElementById(songIndex).closest('.songlistplay');
+            //     let timestampSpan = currentSongItem.querySelector('.timestamp');
+            //     timestampSpan.innerText = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
+            // }
+        })
+
+        // Handle Seekbar change
+        myProgressBar.addEventListener('change', ()=>{
+            audioElement.currentTime = myProgressBar.value * audioElement.duration / 100;
+        })
+
+        // Handle clicks on song item play buttons
+        Array.from(document.getElementsByClassName('songItemPlay')).forEach((element)=>{
+            element.addEventListener('click', (e)=>{ 
+                let clickedIndex = parseInt(e.target.id);
+                
+                if (clickedIndex === songIndex && !audioElement.paused) {
+                    togglePlay(); // Pause if the same song is clicked and playing
+                } else {
+                    makeAllPlays();
+                    setSong(clickedIndex);
+                    togglePlay(); // Play the new song
+                }
+            })
+        })
+
+        // Handle Next button click
+        document.getElementById('next').addEventListener('click', ()=>{
+            songIndex = (songIndex + 1) % songs.length;
+            setSong(songIndex);
+            togglePlay(); // Automatically play next song
+        })
+
+        // Handle Previous button click
+        document.getElementById('previous').addEventListener('click', ()=>{
+            songIndex = (songIndex - 1 + songs.length) % songs.length; // Ensures wrap around to last song
+            setSong(songIndex);
+            togglePlay(); // Automatically play previous song
+        })
+        
+        // Handle song end (auto next)
+        audioElement.addEventListener('ended', () => {
+            document.getElementById('next').click();
+        });
+
+    </script>
+</body>
+<footer>All Rights Are Reserved By: INFINITY-PLAYER 2023</footer>
+</html>

@@ -11,11 +11,6 @@ Modern, visually striking design using advanced CSS transforms, shadows, and neo
 Fully Responsive Design
 Optimized for desktop, tablet, and mobile devices.
 
-Complete Player Controls
-
-Play / Pause
-
-Next / Previous
 
 Interactive Seek Bar (Progress Bar)
 
